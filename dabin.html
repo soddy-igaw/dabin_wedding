@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정다빈 & 이서하 결혼합니다</title>
+    <!-- Tailwind CSS CDN 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter 로드 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-rose-100 p-4 sm:p-6 md:p-8">
+    <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+        <!-- 헤더 섹션 -->
+        <header class="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 sm:p-8 text-center rounded-t-3xl">
+            <h1 id="groom-bride-name" class="text-3xl sm:text-4xl font-bold mb-2"></h1>
+            <p id="wedding-date" class="text-lg sm:text-xl"></p>
+            <p id="wedding-time" class="text-md sm:text-lg"></p>
+            <p id="wedding-location" class="text-md sm:text-lg"></p>
+        </header>
+
+        <!-- 인사말 섹션 -->
+        <section class="p-6 sm:p-8 text-center">
+            <p id="invitation-message" class="text-gray-700 text-base sm:text-lg whitespace-pre-line leading-relaxed"></p>
+        </section>
+
+        <!-- 갤러리 섹션 -->
+        <section class="p-4 sm:p-6 bg-gray-50">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-center text-gray-800 mb-6">갤러리</h2>
+            <div id="gallery-images" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- 이미지들은 JavaScript로 동적으로 추가됩니다 -->
+            </div>
+        </section>
+
+        <!-- 오시는 길 섹션 -->
+        <section class="p-6 sm:p-8">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-center text-gray-800 mb-6">오시는 길</h2>
+            <p id="wedding-address" class="text-gray-700 text-center mb-4"></p>
+            <div class="relative w-full h-64 sm:h-80 md:h-96 rounded-xl overflow-hidden shadow-md mb-4">
+                <iframe
+                    id="map-iframe"
+                    width="100%"
+                    height="100%"
+                    style="border: 0;"
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="결혼식장 지도"
+                ></iframe>
+            </div>
+            <a
+                id="kakaomap-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-full transition duration-300 shadow-lg"
+            >
+                카카오맵으로 길찾기
+            </a>
+        </section>
+
+        <!-- 연락처 및 마음 전하실 곳 섹션 -->
+        <section class="p-6 sm:p-8 bg-gray-50 rounded-b-3xl">
+            <h2 class="text-2xl sm:text-3xl font-semibold text-center text-gray-800 mb-6">연락처</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-xl shadow-md">
+                    <h3 class="text-xl font-semibold text-purple-700 mb-3">신랑측</h3>
+                    <p class="text-gray-700 mb-2">
+                        신랑 <span id="groom-name-contact"></span> <a id="groom-contact-link" href="#" class="text-blue-500 hover:underline"></a>
+                    </p>
+                    <p class="text-gray-700">
+                        부 <span id="groom-father"></span>, 모 <span id="groom-mother"></span>
+                    </p>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md">
+                    <h3 class="text-xl font-semibold text-pink-700 mb-3">신부측</h3>
+                    <p class="text-gray-700 mb-2">
+                        신부 <span id="bride-name-contact"></span> <a id="bride-contact-link" href="#" class="text-blue-500 hover:underline"></a>
+                    </p>
+                    <p class="text-gray-700">
+                        부 <span id="bride-father"></span>, 모 <span id="bride-mother"></span>
+                    </p>
+                </div>
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-semibold text-center text-gray-800 mb-6">마음 전하실 곳</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-5 rounded-xl shadow-md flex flex-col items-center">
+                    <h3 class="text-xl font-semibold text-purple-700 mb-3">신랑측 계좌</h3>
+                    <p id="groom-account" class="text-gray-700 mb-3 text-center"></p>
+                    <button
+                        id="copy-groom-account"
+                        class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 shadow-lg"
+                    >
+                        복사하기
+                    </button>
+                </div>
+                <div class="bg-white p-5 rounded-xl shadow-md flex flex-col items-center">
+                    <h3 class="text-xl font-semibold text-pink-700 mb-3">신부측 계좌</h3>
+                    <p id="bride-account" class="text-gray-700 mb-3 text-center"></p>
+                    <button
+                        id="copy-bride-account"
+                        class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 shadow-lg"
+                    >
+                        복사하기
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 청첩장 정보 (이 부분을 수정하여 사용자님의 정보를 입력하세요)
+        const invitationData = {
+            groomName: '정다빈',
+            brideName: '이서하',
+            weddingDate: '2025년 10월 26일 (일)',
+            weddingTime: '오후 1시',
+            weddingLocation: '아름다운 웨딩홀',
+            weddingAddress: '서울시 강남구 테헤란로 123',
+            mapLink: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3164.717645000001!2d127.0276214156685!3d37.5000000798154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzdMMzAnMDAuMCJOIDEyN8KwMDAnMDAuMCJF!5e0!3m2!1sko!2skr!4v1678912345678!5m2!1sko!2skr', // 구글 맵 임베드 코드 (예시)
+            groomContact: '010-1234-5678',
+            brideContact: '010-9876-5432',
+            groomFather: '김아버지',
+            groomMother: '박어머니',
+            brideFather: '이어머니',
+            brideMother: '최어머니',
+            groomAccount: '카카오뱅크 123-45-67890 (정다빈)',
+            brideAccount: '국민은행 987-65-43210 (이서하)',
+            message: `서로 다른 두 사람이 만나\n사랑과 믿음으로 한 가정을 이루게 되었습니다.\n\n새로운 시작을 축복해주시면\n더 없는 기쁨으로 간직하겠습니다.`,
+            galleryImages: [
+                'https://placehold.co/600x400/E0E7FF/4F46E5?text=웨딩사진+1',
+                'https://placehold.co/600x400/D1FAE5/065F46?text=웨딩사진+2',
+                'https://placehold.co/600x400/FEF2F2/DC2626?text=웨딩사진+3',
+                'https://placehold.co/600x400/FFFBEB/D97706?text=웨딩사진+4',
+            ],
+        };
+
+        // DOMContentLoaded 이벤트 발생 시 데이터 로드 및 이벤트 리스너 설정
+        document.addEventListener('DOMContentLoaded', () => {
+            // 헤더 정보 설정
+            document.getElementById('groom-bride-name').textContent = `${invitationData.groomName} & ${invitationData.brideName}`;
+            document.getElementById('wedding-date').textContent = invitationData.weddingDate;
+            document.getElementById('wedding-time').textContent = invitationData.weddingTime;
+            document.getElementById('wedding-location').textContent = invitationData.weddingLocation;
+
+            // 인사말 설정
+            document.getElementById('invitation-message').textContent = invitationData.message;
+
+            // 갤러리 이미지 추가
+            const galleryContainer = document.getElementById('gallery-images');
+            invitationData.galleryImages.forEach((src, index) => {
+                const div = document.createElement('div');
+                div.className = 'relative w-full aspect-video rounded-xl overflow-hidden shadow-md';
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `웨딩사진 ${index + 1}`;
+                img.className = 'w-full h-full object-cover transition-transform duration-300 hover:scale-105';
+                img.onerror = function() {
+                    this.onerror = null; // Prevent infinite loop
+                    this.src = "https://placehold.co/600x400/CCCCCC/333333?text=이미지+없음";
+                };
+                div.appendChild(img);
+                galleryContainer.appendChild(div);
+            });
+
+            // 오시는 길 설정
+            document.getElementById('wedding-address').textContent = invitationData.weddingAddress;
+            document.getElementById('map-iframe').src = invitationData.mapLink;
+            document.getElementById('kakaomap-link').href = `https://map.kakao.com/link/map/${invitationData.weddingLocation},${invitationData.weddingAddress}`;
+
+            // 연락처 설정
+            document.getElementById('groom-name-contact').textContent = invitationData.groomName;
+            const groomContactLink = document.getElementById('groom-contact-link');
+            groomContactLink.href = `tel:${invitationData.groomContact}`;
+            groomContactLink.textContent = `(${invitationData.groomContact})`;
+            document.getElementById('groom-father').textContent = invitationData.groomFather;
+            document.getElementById('groom-mother').textContent = invitationData.groomMother;
+
+            document.getElementById('bride-name-contact').textContent = invitationData.brideName;
+            const brideContactLink = document.getElementById('bride-contact-link');
+            brideContactLink.href = `tel:${invitationData.brideContact}`;
+            brideContactLink.textContent = `(${invitationData.brideContact})`;
+            document.getElementById('bride-father').textContent = invitationData.brideFather;
+            document.getElementById('bride-mother').textContent = invitationData.brideMother;
+
+            // 계좌 정보 설정 및 복사 버튼 이벤트 리스너
+            document.getElementById('groom-account').textContent = invitationData.groomAccount;
+            document.getElementById('copy-groom-account').addEventListener('click', () => {
+                copyToClipboard(invitationData.groomAccount);
+            });
+
+            document.getElementById('bride-account').textContent = invitationData.brideAccount;
+            document.getElementById('copy-bride-account').addEventListener('click', () => {
+                copyToClipboard(invitationData.brideAccount);
+            });
+        });
+
+        // 계좌번호 복사 함수
+        function copyToClipboard(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            // alert 대신 커스텀 모달 또는 메시지 박스를 사용하는 것이 좋습니다.
+            // 여기서는 간단한 예시를 위해 alert을 사용합니다.
+            alert('계좌번호가 복사되었습니다!');
+        }
+    </script>
+</body>
+</html>
